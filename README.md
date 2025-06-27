@@ -1,0 +1,2 @@
+# VSC-Casa
+VISUAL STUDIO CODE
