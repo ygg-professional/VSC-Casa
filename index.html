@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dibujo Rotando - Figuras A B C D</title>
+<style>
+  body { margin: 0; overflow: hidden; background-color: black; }
+</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script>
+  const renderizador = new THREE.WebGLRenderer({antialias: true});
+  document.body.appendChild(renderizador.domElement);
+
+  let ancho = window.innerWidth;
+  let alto = window.innerHeight; // NO le restamos nada
+
+  renderizador.setSize(ancho, alto);
+
+  const camara = new THREE.PerspectiveCamera(45, ancho / alto, 1, 1000);
+  camara.position.y = 16 / 2; // Centrado en Y
+  camara.position.z = 50;     // Alejado para ver bien las figuras
+
+  const escena = new THREE.Scene();
+
+  const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+
+  // Figura A
+  const PuntosA = [
+    new THREE.Vector3(0,7,0),
+    new THREE.Vector3(0,9,0),
+    new THREE.Vector3(7,16,0),
+    new THREE.Vector3(8,16,0),
+    new THREE.Vector3(15,9,0),
+    new THREE.Vector3(15,7,0),
+    new THREE.Vector3(13,7,0),
+    new THREE.Vector3(8,13,0),
+    new THREE.Vector3(7,13,0),
+    new THREE.Vector3(2,7,0),
+    new THREE.Vector3(0,7,0)
+  ];
+
+  const GeometriaA = new THREE.BufferGeometry().setFromPoints(PuntosA);
+  const LineaA = new THREE.Line(GeometriaA, material);
+  escena.add(LineaA);
+
+  // Figura B
+  const PuntosB = [
+    new THREE.Vector3(1,7,0),
+    new THREE.Vector3(1,0,0),
+    new THREE.Vector3(14,0,0),
+    new THREE.Vector3(14,7,0)
+  ];
+
+  const GeometriaB = new THREE.BufferGeometry().setFromPoints(PuntosB);
+  const LineaB = new THREE.Line(GeometriaB, material);
+  escena.add(LineaB);
+
+  // Figura C
+  const PuntosC = [
+    new THREE.Vector3(5,0,0),
+    new THREE.Vector3(5,6,0),
+    new THREE.Vector3(10,6,0),
+    new THREE.Vector3(10,0,0)
+  ];
+
+  const GeometriaC = new THREE.BufferGeometry().setFromPoints(PuntosC);
+  const LineaC = new THREE.Line(GeometriaC, material);
+  escena.add(LineaC);
+
+  // Figura D
+  const PuntosD = [
+    new THREE.Vector3(11,13,0),
+    new THREE.Vector3(11,15,0),
+    new THREE.Vector3(13,15,0),
+    new THREE.Vector3(13,11,0)
+  ];
+
+  const GeometriaD = new THREE.BufferGeometry().setFromPoints(PuntosD);
+  const LineaD = new THREE.Line(GeometriaD, material);
+  escena.add(LineaD);
+
+  // Animación
+  function Update() {
+    requestAnimationFrame(Update);
+
+    LineaA.rotation.y += 0.05;
+    LineaB.rotation.y += 0.05;
+    LineaC.rotation.y += 0.05;
+    LineaD.rotation.y += 0.05;
+
+    renderizador.render(escena, camara);
+  }
+
+  Update();
+
+  // Ajuste de cámara y renderizador al cambiar tamaño de ventana
+  window.addEventListener('resize', () => {
+    ancho = window.innerWidth;
+    alto = window.innerHeight;
+    renderizador.setSize(ancho, alto);
+    camara.aspect = ancho / alto;
+    camara.updateProjectionMatrix();
+  });
+</script>
+</body>
+</html>
